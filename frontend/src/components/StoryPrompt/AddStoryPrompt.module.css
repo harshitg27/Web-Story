@@ -1,0 +1,162 @@
+.wrapper{
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .90);
+}
+.page{
+    width: 60vw;
+    min-width: 400px;
+    height: 70vh;
+    border-radius: 1.25rem;
+    padding: 2rem ; 
+    padding-top: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    background: #ffffff;
+    position: fixed;
+    left: 20vw;
+    top: 15vh;
+    color: #000;
+}
+
+.closeButton{
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.closeButton img{
+    width: 80%;
+    height: 80%;
+}
+
+.toastmsg{
+    position: absolute;
+    right: 4rem;
+    top: 2rem;
+    font-size: .6rem;
+    color: #474141;
+}
+
+.slides{
+    display: flex;
+    gap: 1rem;
+}
+
+.slides div{
+    cursor: pointer;
+    width: 5rem;
+    height: 4rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px 0 rgba(0, 0, 0, .1);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem
+}
+
+.closeSlides{
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: -.4rem;
+    right: -0.4rem;
+}
+
+.slidesDetailsForm{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.inputBox{
+    display: flex;
+    align-items: center;
+}
+
+.inputBox p{
+    width: 30%;
+    font-size: 1.25rem;
+}
+
+.inputBox input , .inputBox select{
+    width: 40%;
+    height: 2.25rem;
+    background-color: #fff;
+    border: 1px solid black;
+    padding: 0 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    outline: none;
+}
+.inputBox textarea{
+    width: 40%;
+    height: 5rem;
+    border: 1px solid black;
+    padding: .5rem 1rem;
+    resize: none;
+}
+
+.actionButtons{
+    display: flex;
+    justify-content: space-between;
+}
+.actionButtons div{
+    display: flex;
+    gap: 1rem;
+}
+
+.actionButtons button {
+    height: 2.75rem;
+    min-width: 7rem;
+    background-color: #73ABFF;
+    border: none;
+    border-radius: 1.25rem;
+    align-self: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 0 1rem;
+}
+
+@media screen and (max-width : 576px){
+    .page{
+        width: 80vw;
+        padding: 8vh 2.5vw;
+        left: 10vw;
+    }
+    .title{
+        font-size: 1.1rem;
+    }
+    .inputBox{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .inputBox p{
+       font-size: .9rem; 
+       text-align: left;
+    }
+    .inputBox input{
+        width: 100%;
+    }
+    .rightIcon{
+        bottom: .5rem;
+    }
+    .actionButtons{
+        justify-content: center;
+    }
+    .actionButtons div{
+        display: none;
+    }
+}
+
