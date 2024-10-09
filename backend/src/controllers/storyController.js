@@ -4,10 +4,14 @@ function createStory() {
     return async(req , res , next) =>{
         try {
             const { slidesDetails , category } = req.body;
+            const slides = slidesDetails.map((slide , index) => {
+                slide.likes = []
+                return slide
+            })
             const story = new StoryModel({
                 storyCategory: category ,
                 userId : req.user_id,
-                slides:slidesDetails
+                slides
             })
             await story.save()
             res.status(201).json({
@@ -78,7 +82,7 @@ function getStoryById (){
             }
             res.status(200).json({
                 status:'Success' ,
-                Quiz
+                Story
             })
         } catch (error) {
             next("Invalid Url or Story", error);
@@ -91,17 +95,22 @@ function updateStory() {
         try {
             const storyId = req.params.id ;
             const { slidesDetails , category } = req.body;
-            
+            const Story = await StoryModel.findById(storyId)
+            const slides = slidesDetails.map((slide , index) => {
+                slide.likes = Story.slides[index].likes
+                return slide
+            })
             const updatedStory = await StoryModel.findByIdAndUpdate(storyId , {
-                storyCategory: category ,
-                slides:slidesDetails
+                storyCategory : category ,
+                slides
             })
             res.status(201).json({
                 status:"Success",
                 updatedStory
             })
         } catch (error) { 
-            next('Error For updating Quiz' , error)
+            console.log(error)
+            next('Error For updating Story' , error)
         }
     }
 }
@@ -109,18 +118,26 @@ function updateStory() {
 function updateLikes (){
     return async(req , res , next) =>{
         try {
-            const quizId = req.params.id ;
-            const existingQuiz = await QuizModel.findById(quizId)
-            const impr = existingQuiz.impression
-            const updatedQuiz = await QuizModel.findByIdAndUpdate(quizId , {
-                impression : impr + 1
+            const storyId = req.params.id ;
+            const {slideIndex} = req.body
+            const Story = await StoryModel.findById(storyId)
+            const storySlides = Story.slides
+            // console.log(Story.slides[slideIndex])
+            const userFind = storySlides[slideIndex].likes.find((user) => user === req.user_id)
+            if(userFind){
+                storySlides[slideIndex].likes = Story.slides[slideIndex].likes.filter((user) => user != req.user_id)
+            }else{
+                storySlides[slideIndex].likes.push(req.user_id)
+            }
+            const updatedLike = await StoryModel.findByIdAndUpdate(storyId , {
+                slides: storySlides
             })
             res.status(201).json({
                 status:'Success' ,
-                impression : impr + 1
+                updatedLike
             })
         } catch (error) {
-            next("Invalid Quiz", error);
+            next("Invalid Story", error);
         }
     }
 }
@@ -131,5 +148,6 @@ module.exports = {
     getStoryByCategory,
     getStoryByUser,
     getStoryById,
-    updateStory
+    updateStory ,
+    updateLikes
 }

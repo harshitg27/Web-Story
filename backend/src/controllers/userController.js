@@ -84,9 +84,42 @@ function findUser(){
         }
     }
 }
+function addBookmark (){
+    return async (req, res, next) => {
+        try {
+            const userId = req.user_id ;
+            const {bookmark} = req.body
+            const existingUser = await UserModel.findById(userId);
+            if (!existingUser) {
+                return res.status(400).json({
+                    status: 'Failed',
+                    message: 'User Not Found',
+                });
+            }
+            const bookfind = existingUser.bookmarks.find(({stodyId , slideIndex})=>{
+                return stodyId == bookmark.stodyId && slideIndex == bookmark.slideIndex
+            })
+            if(bookfind){
+                existingUser.bookmarks = existingUser.bookmarks.filter(({stodyId , slideIndex} , index) => {
+                    return !(stodyId == bookmark.stodyId && slideIndex == bookmark.slideIndex)
+                })
+            }else{
+                existingUser.bookmarks.push(bookmark)
+            }
+            await existingUser.save() ;
+            res.status(200).json({
+                status: 'Successs', 
+                existingUser
+            })
+        } catch (error) {
+            next('Error for Adding Bookmark' , error)
+        }
+    }
+}
 
 module.exports = {
     handleLogin ,
     registerUser ,
-    findUser
+    findUser , 
+    addBookmark
 }

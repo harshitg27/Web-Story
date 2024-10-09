@@ -30,9 +30,11 @@ const storySchema = new mongoose.Schema({
         type : mongoose.ObjectId,
         ref: "User"
     },
-    slides : {
-        type:[slidesSchema]
-    }
+    slides : [
+        {
+            type: Object
+        }
+    ]
 
 },
 {timestamps:true})

@@ -4,7 +4,8 @@ const validateUser = require('../middleware/validateUser')
 const {
     handleLogin ,
     registerUser, 
-    findUser
+    findUser,
+    addBookmark
 } = require('../controllers/userController');
 const verifyToken = require('../middleware/verifyToken');
 
@@ -22,5 +23,7 @@ router.post('/register', validateUser, registerUser())
 router.post('/login', handleLogin())
 
 router.get('/find', verifyToken , findUser())
+
+router.put('/addbookmark' , verifyToken , addBookmark())
 
 module.exports = router 
